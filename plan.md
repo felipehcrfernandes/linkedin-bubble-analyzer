@@ -5,6 +5,7 @@
 This is a greenfield project to build a tool that analyzes a user's LinkedIn feed to reveal their information bubble. The tool collects posts (via a Chrome Extension), measures lexical and semantic similarity, clusters posts by topic, computes a diversity score, and visualizes the results.
 
 **Key decisions:**
+- **uv** for dependency management and virtual environment (`uv venv`, `uv add`, `uv run`)
 - **TDD (Test-Driven Development)** — for every feature, write failing tests first (RED), then implement the minimum code to pass (GREEN), then refactor if needed. Tests and implementation are committed together as a single unit.
 - **Layered Architecture** (routes → services → repositories → domain modules)
 - **Small commits** — each task is one reviewable commit
@@ -33,8 +34,7 @@ linkedin-bubble-analyzer/
 ├── CLAUDE.md
 ├── README.md
 ├── pyproject.toml
-├── requirements.txt
-├── requirements-dev.txt
+├── uv.lock
 │
 ├── backend/
 │   ├── __init__.py
@@ -130,19 +130,29 @@ linkedin-bubble-analyzer/
 
 ---
 
-## Phase 0: Project Scaffolding (9 tasks)
+## Phase 0: Project Scaffolding (10 tasks)
 
 | # | Task | Files | Commit |
 |---|------|-------|--------|
 | 0.0 | Create plan.md in project root | `plan.md` | `docs: add project implementation plan` |
 | 0.1 | Init git repo + `.gitignore` | `.gitignore` | `chore: initialize git repository and add .gitignore` |
-| 0.2 | Python project config + deps | `pyproject.toml`, `requirements.txt`, `requirements-dev.txt` | `chore: add project config and dependency files` |
+| 0.2 | Python project config | `pyproject.toml` | `chore: add project config and dependency files` |
 | 0.3 | Backend package skeleton | `backend/**/__init__.py` (all packages) | `chore: scaffold backend package structure` |
 | 0.4 | Test package skeleton + fixtures | `tests/`, `tests/conftest.py` | `chore: scaffold test directory with fixtures` |
 | 0.5 | Core config + exceptions | `backend/core/config.py`, `backend/core/exceptions.py` | `feat: add core configuration and exceptions` |
 | 0.6 | SQLite database setup | `backend/core/database.py`, `backend/models/base.py` | `feat: add SQLite database engine and session` |
-| 0.7 | FastAPI app + health endpoint (TDD) | `tests/integration/test_health_route.py` → `backend/main.py`, `backend/routes/health.py` | `feat: create FastAPI app with health endpoint` |
-| 0.8 | Sample data + README | `data/sample/sample_posts.json`, `README.md` | `docs: add sample data and README` |
+| 0.7 | Set up uv + install deps | `uv venv .venv`, `uv add <deps>`, `uv add --dev <dev-deps>` → updates `pyproject.toml`, creates `uv.lock` | (included in 0.7 commit) |
+| 0.8 | FastAPI app + health endpoint (TDD) | `tests/integration/test_health_route.py` → `backend/main.py`, `backend/routes/health.py` | `feat: create FastAPI app with health endpoint` |
+| 0.9 | Sample data + README | `data/sample/sample_posts.json`, `README.md` | `docs: add sample data and README` |
+
+**Dependency management with uv:**
+```bash
+uv venv .venv                  # create virtual environment
+uv add <package>               # add production dependency (updates pyproject.toml + uv.lock)
+uv add --dev <package>         # add dev dependency
+uv run pytest                  # run commands inside the venv
+uv run uvicorn backend.main:app --reload  # start dev server
+```
 
 ---
 
@@ -252,7 +262,7 @@ linkedin-bubble-analyzer/
 
 | Phase | Focus | Tasks |
 |-------|-------|-------|
-| 0 | Scaffolding | 9 |
+| 0 | Scaffolding | 10 |
 | 1 | Post ingestion + cleaning (TDD) | 6 |
 | 2 | Lexical similarity (TDD) | 3 |
 | 3 | Semantic similarity (TDD) | 4 |
@@ -262,4 +272,4 @@ linkedin-bubble-analyzer/
 | 7 | Full pipeline + API (TDD) | 7 |
 | 8 | Chrome Extension | 7 |
 | 9 | Polish + docs | 4 |
-| **Total** | | **48** |
+| **Total** | | **49** |
