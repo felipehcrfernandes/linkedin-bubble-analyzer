@@ -45,3 +45,8 @@ models_cache/
 
 # Ruff
 .ruff_cache/
+
+# Others
+CLAUDE.md
+plan.md
+description.md
