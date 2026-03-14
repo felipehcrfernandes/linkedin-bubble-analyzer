@@ -5,8 +5,6 @@ class PostCreate(BaseModel):
     author: str
     content: str
     date: str | None = None
-    likes: int = 0
-    comments: int = 0
 
 
 class PostResponse(BaseModel):
@@ -14,8 +12,6 @@ class PostResponse(BaseModel):
     content: str
     cleaned_text: str | None = None
     date: str | None = None
-    likes: int = 0
-    comments: int = 0
 
     model_config = {"from_attributes": True}
 

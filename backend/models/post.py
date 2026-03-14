@@ -12,5 +12,3 @@ class Post(Base):
     content = Column(Text, nullable=False)
     cleaned_text = Column(Text, nullable=True)
     date = Column(String, nullable=True)
-    likes = Column(Integer, default=0)
-    comments = Column(Integer, default=0)
