@@ -7,7 +7,7 @@ class Post(Base):
     __tablename__ = "posts"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    dataset_id = Column(String, nullable=False, index=True)
+    dataset_id = Column(Integer, nullable=False, index=True)
     author = Column(String, nullable=False)
     content = Column(Text, nullable=False)
     cleaned_text = Column(Text, nullable=True)

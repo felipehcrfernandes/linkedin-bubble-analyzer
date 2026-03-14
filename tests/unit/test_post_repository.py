@@ -27,7 +27,7 @@ def test_save_and_load_posts(repo):
         {"author": "Alice", "content": "Hello world", "cleaned_text": "hello world"},
         {"author": "Bob", "content": "Goodbye world", "cleaned_text": "goodbye world"},
     ]
-    dataset_id = repo.save_posts("ds-1", posts)
+    dataset_id = repo.save_posts(1, posts)
     loaded = repo.load_posts(dataset_id)
     assert len(loaded) == 2
     assert loaded[0]["author"] == "Alice"
@@ -36,12 +36,21 @@ def test_save_and_load_posts(repo):
 
 def test_load_nonexistent_dataset_raises(repo):
     with pytest.raises(PostsNotFoundError):
-        repo.load_posts("nonexistent")
+        repo.load_posts(999)
 
 
 def test_list_datasets(repo):
-    repo.save_posts("ds-1", [{"author": "A", "content": "x", "cleaned_text": "x"}])
-    repo.save_posts("ds-2", [{"author": "B", "content": "y", "cleaned_text": "y"}])
+    repo.save_posts(1, [{"author": "A", "content": "x", "cleaned_text": "x"}])
+    repo.save_posts(2, [{"author": "B", "content": "y", "cleaned_text": "y"}])
     datasets = repo.list_datasets()
-    assert "ds-1" in datasets
-    assert "ds-2" in datasets
+    assert 1 in datasets
+    assert 2 in datasets
+
+
+def test_next_dataset_id_starts_at_one(repo):
+    assert repo.next_dataset_id() == 1
+
+
+def test_next_dataset_id_increments(repo):
+    repo.save_posts(1, [{"author": "A", "content": "x", "cleaned_text": "x"}])
+    assert repo.next_dataset_id() == 2

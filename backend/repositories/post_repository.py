@@ -1,3 +1,4 @@
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from backend.core.exceptions import PostsNotFoundError
@@ -8,7 +9,11 @@ class PostRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def save_posts(self, dataset_id: str, posts: list[dict]) -> str:
+    def next_dataset_id(self) -> int:
+        max_id = self.db.query(func.max(Post.dataset_id)).scalar()
+        return (max_id or 0) + 1
+
+    def save_posts(self, dataset_id: int, posts: list[dict]) -> int:
         for post_data in posts:
             post = Post(
                 dataset_id=dataset_id,
@@ -21,7 +26,7 @@ class PostRepository:
         self.db.commit()
         return dataset_id
 
-    def load_posts(self, dataset_id: str) -> list[dict]:
+    def load_posts(self, dataset_id: int) -> list[dict]:
         posts = self.db.query(Post).filter(Post.dataset_id == dataset_id).all()
         if not posts:
             raise PostsNotFoundError(dataset_id)
@@ -35,6 +40,6 @@ class PostRepository:
             for p in posts
         ]
 
-    def list_datasets(self) -> list[str]:
+    def list_datasets(self) -> list[int]:
         rows = self.db.query(Post.dataset_id).distinct().all()
         return [r[0] for r in rows]

@@ -21,9 +21,9 @@ class PostUploadRequest(BaseModel):
 
 
 class PostUploadResponse(BaseModel):
-    dataset_id: str
+    dataset_id: int
     post_count: int
 
 
 class DatasetListResponse(BaseModel):
-    datasets: list[str]
+    datasets: list[int]

@@ -5,7 +5,7 @@ class BubbleAnalyzerError(Exception):
 class PostsNotFoundError(BubbleAnalyzerError):
     """Raised when a dataset of posts is not found."""
 
-    def __init__(self, dataset_id: str):
+    def __init__(self, dataset_id: int):
         self.dataset_id = dataset_id
         super().__init__(f"Dataset '{dataset_id}' not found")
 
@@ -13,7 +13,7 @@ class PostsNotFoundError(BubbleAnalyzerError):
 class AnalysisNotFoundError(BubbleAnalyzerError):
     """Raised when an analysis result is not found."""
 
-    def __init__(self, dataset_id: str):
+    def __init__(self, dataset_id: int):
         self.dataset_id = dataset_id
         super().__init__(f"Analysis for dataset '{dataset_id}' not found")
 
