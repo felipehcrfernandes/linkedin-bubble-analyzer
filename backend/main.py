@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from backend.core.database import create_tables
+from backend.routes.analysis import router as analysis_router
 from backend.routes.health import router as health_router
 from backend.routes.posts import router as posts_router
 
@@ -17,6 +18,7 @@ def create_app() -> FastAPI:
     application = FastAPI(title="LinkedIn Bubble Analyzer", lifespan=lifespan)
     application.include_router(health_router)
     application.include_router(posts_router)
+    application.include_router(analysis_router)
     return application
 
 
