@@ -12,7 +12,7 @@ uv sync
 ## Running
 
 ```bash
-uv run uvicorn backend.main:app --reload
+uv run main.py
 ```
 
 Visit http://localhost:8000/docs for the Swagger UI.
